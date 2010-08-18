@@ -30,7 +30,7 @@ an object:
  
 
 The color gradient used to shade the "not in the
-set" points on the section of convex plain rendered
+set" points on the section of complex plain rendered
 is built from a set of initial color "points". A
 cubic spline through 3-D color space is traced such
 that those points are interpolated (google for
