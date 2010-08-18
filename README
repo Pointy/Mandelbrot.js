@@ -1,0 +1,93 @@
+Mandelbrot Set jQuery plugin
+
+Released under MIT license
+
+=============================
+
+This messy initial release was conceived as no more
+than a test to see how much raw dumb floating-point
+throughput I could get out of V8.  The plugin works
+by creating a <canvas> element in the container(s)
+referenced by the selector:
+
+  $('#someDiv').mandelbrot();
+
+The plugin can take some parameters, in the form of
+an object:
+
+  $('#someDiv').mandelbrot({
+    size: 500, // max size of biggest rectangular
+               // dimension - default 500
+    animate: true, // whether to "roll" the color
+               // pallette after drawing
+    keyColors: [       // colors for building
+      [ 10, 10, 245 ], // gradient - see below
+      [ 245, 245, 10 ],// 
+      [ 245, 10, 10 ], // supply as many as you
+      [ 218, 20, 225 ] // like
+    ]
+  });
+ 
+
+The color gradient used to shade the "not in the
+set" points on the section of convex plain rendered
+is built from a set of initial color "points". A
+cubic spline through 3-D color space is traced such
+that those points are interpolated (google for
+Catmull-Rom splines).  The result is a range of
+colors lacking the sharp discontinuities of gradients
+built by simple linear interpolation.  Don't worry
+about this if it seems weird; it just looks cool.
+
+The initial view of the plane is fixed at a range
+that captures pretty much the entire set. (Should be
+an init param, so I'll probably do that eventually.)
+After the initial view is drawn, the mouse can be
+used to click-drag a "zoom" rectangle over the image
+(hit the space bar to cancel a zoom), and when you
+release the mouse the plugin will repaint with that
+section of the complex plane shown.
+
+Tips for cool stuff to see
+
+* Zooming in on the black blob in the initial view
+is slow and pointless. The blackness represents the
+points on the plane that are *in* the set, so zooming
+in doesn't reveal any secrets. (Well, if it does, let
+me know.) It's slow because of the math involved; the
+only way to know if something's in the set is to iterate
+the process of squaring the complex value at a point
+over and over again until you get sick of it, or until
+the resulting value "escapes" from some predetermined
+radius. Points in the set don't escape, and points out
+of the set are colored according (sort-of) to the
+"speed" with which they escaped. Thus the colors give
+a sort of "proximity" to the set for out-of-set points.
+
+* Try to zoom at the edges of the black blob. Different
+edge areas have characteristically different appearances.
+
+* It's actually cool to zoom in on a region of colored
+space that's not really "near" the black blob. There
+are artifacts in the coloring that I think stem from
+a tweak made to the "escape" value designed to smooth
+things out and (again, sort-of) increase "resolution".
+(I don't really understand the math in any serious way
+so don't bother asking me about it; google around and
+there are many good resources.)
+
+
+Browsers
+
+This works fine in Safari and Chrome. It *works* in 
+Firefox 3, but the floating point abilities of SpiderMonkey
+are woefully slow by comparison to the other new browsers.
+I haven't tried Opera but it might work.
+
+Testing has been totally inadequate. In particular, there
+might be weird things that happen if the container is
+placed on the page in some "interesting" way (inside another
+position: relative box or something).  Specifically, the
+"zoom" box might be drawn incorrectly.  Let me know if
+that happens and I'll look at it (twitter/m5).
+
