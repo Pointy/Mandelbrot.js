@@ -74,7 +74,7 @@
 
 
     function initz() {
-      z0 = [-2.3, 1.2], z1 = [.70, -1.2], maxi = 500, radius = 100;
+      z0 = [-2.3, 1.2], z1 = [.70, -1.2], maxi = 500, radius = 4;
     }
     initz();
 
@@ -222,10 +222,10 @@
           z1[1] -= dz1 * (h - Math.max(mstop[1], mstart[1])) / h;
 
           if (dz0 < 0.5) {
-            maxi = ~~(radius = 400 * Math.log(1 / dz0));
+            maxi = ~~(400 * Math.log(1 / dz0));
           }
           else {
-            maxi = 500; radius = 200;
+            maxi = 500; radius = 4;
           }
 
           nixZoomer();
@@ -236,7 +236,7 @@
 
         function moveHandler(ev) {
           if (!mstart || !rubber) return;
-          var $this = $(this), offset = cnv.offset(), pos = [event.pageX - offset.left, event.pageY - offset.top];
+          var $this = $(this), offset = cnv.offset(), pos = [ev.pageX - offset.left, ev.pageY - offset.top];
           
           if (pos[0] > mstart[0]) {
             if (pos[1] > mstart[1]) {
